@@ -13,6 +13,11 @@ let middleImageindex;
 
 let voting = 0;
 let maxVoting = 25;
+let norepetArrnew = [];
+let norepetArrold = [];
+let votesArr = [];
+let namesArr = [];
+let seenArr = [];
 
 
 
@@ -24,6 +29,7 @@ function Busmall(name, img) {
     this.votes = 0;
     this.seen = 0;
     Busmall.holeoFbusmall.push(this);
+    namesArr.push(this.name);
 }
 
 new Busmall('bag', 'img/bag.jpg');//0
@@ -56,37 +62,59 @@ function generatRandomindex() {
 // let x=generatRandomindex();
 // console.log(x);
 
-function renderThreeimage(){
+function renderThreeimage() {
+
 
     leftImageindex = generatRandomindex();
     middleImageindex = generatRandomindex();
     rightImageindex = generatRandomindex();
-    
-    
+
+
     while (leftImageindex === middleImageindex || leftImageindex === rightImageindex || middleImageindex === rightImageindex) {
         leftImageindex = generatRandomindex();
         rightImageindex = generatRandomindex();
     }
-    
+    norepetArrold = [];
+    norepetArrold.push(leftImageindex);
+    norepetArrold.push(middleImageindex);
+    norepetArrold.push(rightImageindex);
+    console.log('old', norepetArrold);
+
+    // for(let i=0;i<norepetArrnew.length;i++){
+
+    // }
+
     leftImageelement.src = Busmall.holeoFbusmall[leftImageindex].img;
     middleImageelement.src = Busmall.holeoFbusmall[middleImageindex].img;
     rightImageelement.src = Busmall.holeoFbusmall[rightImageindex].img;
+
+
 }
 renderThreeimage();
 
 
-continer.addEventListener('click',userClick);
+
+
+continer.addEventListener('click', userClick);
 
 // leftImageelement.addEventListener('click', userClick);
 // middleImageelement.addEventListener('click', userClick);
 // rightImageelement.addEventListener('click', userClick);
 
+
 function userClick(event) {
     console.log(event.target.id);
 
-    // voting++;
-    // console.log(voting);
 
+    for (let i = 0; i < norepetArrnew.length; i++) {
+        for (let j = 0; j < norepetArrold.length; j++) {
+            if (norepetArrnew[i] === norepetArrold[j]) {
+                norepetArrold = [];
+                generatRandomindex();
+            }
+        }
+    }
+    norepetArrnew = [];
 
     if (voting < maxVoting) {
         if (event.target.id === 'left-image') {
@@ -104,45 +132,92 @@ function userClick(event) {
             Busmall.holeoFbusmall[middleImageindex].seen++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
         }
-        else if (event.target.id === 'right-image'){
+        else if (event.target.id === 'right-image') {
             voting++;
             console.log(voting);
             Busmall.holeoFbusmall[leftImageindex].seen++;
             Busmall.holeoFbusmall[middleImageindex].seen++;
             Busmall.holeoFbusmall[rightImageindex].votes++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
-        }else{
+        } else {
             console.log('containr votes', voting);
         }
+        norepetArrnew.push(leftImageindex);
+        norepetArrnew.push(middleImageindex);
+        norepetArrnew.push(rightImageindex);
+        console.log('new', norepetArrnew);
         renderThreeimage();
-    } else {
-        let  listOfall = document.getElementById('list');
-        listOfall.addEventListener('click',userClickbotton);
 
-        function userClickbotton(event){
+
+    } else {
+        let listOfall = document.getElementById('list');
+        listOfall.addEventListener('click', userClickbotton);
+
+        function userClickbotton(event) {
 
             let list = document.getElementById('finalList');
             let lsitOfbusmall;
             for (let i = 0; i < Busmall.holeoFbusmall.length; i++) {
+                votesArr.push(Busmall.holeoFbusmall[i].votes);
+                seenArr.push(Busmall.holeoFbusmall[i].seen);
+
+                // Busmall.holeoFbusmall[i].votesArr;
                 let lsitOfbusmall = document.createElement('li');
                 list.appendChild(lsitOfbusmall);
                 lsitOfbusmall.textContent = `${Busmall.holeoFbusmall[i].name} had ${Busmall.holeoFbusmall[i].votes} votes, and was seen ${Busmall.holeoFbusmall[i].seen} times`;
-    
+
             }
-            
-            
-            listOfall.textContent=lsitOfbusmall;
+
+
+            listOfall.textContent = lsitOfbusmall;
+            listOfall.removeEventListener('click', userClickbotton);
+            chart();
         }
-        continer.removeEventListener('click',userClick);
-        // leftImageelement.removeEventListener('click',userClick);
-        // rightImageelement.removeEventListener('click',userClick);
-        // middleImageelement.removeEventListener('click',userClick);
+        continer.removeEventListener('click', userClick);
 
     }
 }
 
 
 
+function chart() {
+    let ctx = document.getElementById('myChart').getContext('2d');
 
+    let chart = new Chart(ctx, {
+        // what type is the chart
+        type: 'bar',
+
+        //  the data for showing
+        data: {
+            //  for the names
+            labels: namesArr,
+
+            datasets: [
+                {
+                    label: 'busmall-votes',
+                    data: votesArr,
+                    backgroundColor: [
+                        'rgb(251, 93, 76)',
+                    ],
+
+                    borderWidth: 1
+                },
+
+                {
+                    label: 'busmall-seen',
+                    data: seenArr,
+                    backgroundColor: [
+                        'black',
+                    ],
+
+                    borderWidth: 1
+                }
+
+            ]
+        },
+        options: {}
+    });
+
+}
 
 
