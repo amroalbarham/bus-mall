@@ -13,11 +13,12 @@ let middleImageindex;
 
 let voting = 0;
 let maxVoting = 25;
-let norepetArrnew = [];
-let norepetArrold = [];
+// let norepetArrnew = [];
+// let norepetArrold = [];
 let votesArr = [];
 let namesArr = [];
 let seenArr = [];
+let allOfimages = [];
 
 
 
@@ -70,16 +71,16 @@ function renderThreeimage() {
     rightImageindex = generatRandomindex();
 
 
-    while (leftImageindex === middleImageindex || leftImageindex === rightImageindex || middleImageindex === rightImageindex) {
+    while (leftImageindex === middleImageindex || leftImageindex === rightImageindex || middleImageindex === rightImageindex || allOfimages.includes(leftImageindex) || allOfimages.includes(middleImageindex || allOfimages.includes(rightImageindex))) {
         leftImageindex = generatRandomindex();
         rightImageindex = generatRandomindex();
     }
-    norepetArrold = [];
-    norepetArrold.push(leftImageindex);
-    norepetArrold.push(middleImageindex);
-    norepetArrold.push(rightImageindex);
-    console.log('old', norepetArrold);
-
+    // norepetArrold = [];
+    // norepetArrold.push(leftImageindex);
+    // norepetArrold.push(middleImageindex);
+    // norepetArrold.push(rightImageindex);
+    // console.log('old', norepetArrold);
+    allOfimages = [];
     // for(let i=0;i<norepetArrnew.length;i++){
 
     // }
@@ -87,6 +88,10 @@ function renderThreeimage() {
     leftImageelement.src = Busmall.holeoFbusmall[leftImageindex].img;
     middleImageelement.src = Busmall.holeoFbusmall[middleImageindex].img;
     rightImageelement.src = Busmall.holeoFbusmall[rightImageindex].img;
+    allOfimages.push(leftImageindex);
+    allOfimages.push(middleImageindex);
+    allOfimages.push(rightImageindex);
+    console.log(allOfimages);
 
 
 }
@@ -106,15 +111,19 @@ function userClick(event) {
     console.log(event.target.id);
 
 
-    for (let i = 0; i < norepetArrnew.length; i++) {
-        for (let j = 0; j < norepetArrold.length; j++) {
-            if (norepetArrnew[i] === norepetArrold[j]) {
-                norepetArrold = [];
-                generatRandomindex();
-            }
-        }
-    }
-    norepetArrnew = [];
+    // for (let i = 0; i < norepetArrnew.length; i++) {
+    //     for (let j = 0; j < norepetArrold.length; j++) {
+    //         if (norepetArrnew[i] === norepetArrold[j]) {
+    //             norepetArrold = [];
+    //             generatRandomindex();
+
+    //             // norepetArrnew = [];
+
+    //         }
+    //     }
+    // }
+    // norepetArrnew = [];
+
 
     if (voting < maxVoting) {
         if (event.target.id === 'left-image') {
@@ -142,10 +151,11 @@ function userClick(event) {
         } else {
             console.log('containr votes', voting);
         }
-        norepetArrnew.push(leftImageindex);
-        norepetArrnew.push(middleImageindex);
-        norepetArrnew.push(rightImageindex);
-        console.log('new', norepetArrnew);
+
+        // norepetArrnew.push(leftImageindex);
+        // norepetArrnew.push(middleImageindex);
+        // norepetArrnew.push(rightImageindex);
+        // console.log('new', norepetArrnew);
         renderThreeimage();
 
 
