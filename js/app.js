@@ -84,31 +84,35 @@ continer.addEventListener('click',userClick);
 function userClick(event) {
     console.log(event.target.id);
 
-    voting++;
-    console.log(voting);
+    // voting++;
+    // console.log(voting);
 
 
     if (voting < maxVoting) {
         if (event.target.id === 'left-image') {
-
+            voting++;
+            console.log(voting);
             Busmall.holeoFbusmall[leftImageindex].votes++;
             Busmall.holeoFbusmall[leftImageindex].seen++;
             Busmall.holeoFbusmall[middleImageindex].seen++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
         } else if (event.target.id === 'middle-image') {
-
+            voting++;
+            console.log(voting);
             Busmall.holeoFbusmall[leftImageindex].seen++;
             Busmall.holeoFbusmall[middleImageindex].votes++;
             Busmall.holeoFbusmall[middleImageindex].seen++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
         }
         else if (event.target.id === 'right-image'){
+            voting++;
+            console.log(voting);
             Busmall.holeoFbusmall[leftImageindex].seen++;
             Busmall.holeoFbusmall[middleImageindex].seen++;
             Busmall.holeoFbusmall[rightImageindex].votes++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
         }else{
-            
+            console.log('containr votes', voting);
         }
         renderThreeimage();
     } else {
