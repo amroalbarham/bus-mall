@@ -31,7 +31,30 @@ function Busmall(name, img) {
     this.seen = 0;
     Busmall.holeoFbusmall.push(this);
     namesArr.push(this.name);
+
 }
+
+
+function updateDate() {
+    let stringData = JSON.stringify(Busmall.holeoFbusmall);
+    // console.log(Busmall.holeoFbusmall);
+    console.log(stringData);
+    let dataSave = localStorage.setItem('busmall', stringData);
+
+
+}
+function gitdata() {
+
+    let data = localStorage.getItem('busmall');
+    let objectData = JSON.parse(data);
+
+    if (objectData !== null) {
+
+        Busmall.holeoFbusmall = objectData;
+    }
+    // renderThreeimage(),  
+}
+
 
 new Busmall('bag', 'img/bag.jpg');//0
 new Busmall('banana', 'img/banana.jpg');//1
@@ -54,7 +77,7 @@ new Busmall('usb', 'img/usb.gif');//17
 new Busmall('water-can', 'img/water-can.jpg');//18
 new Busmall('wine-glass', 'img/wine-glass.jpg');//19
 
-console.log(Busmall.holeoFbusmall);
+// console.log(Busmall.holeoFbusmall);
 
 
 function generatRandomindex() {
@@ -66,22 +89,24 @@ function generatRandomindex() {
 function renderThreeimage() {
 
 
+
     leftImageindex = generatRandomindex();
     middleImageindex = generatRandomindex();
     rightImageindex = generatRandomindex();
 
 
-    while (leftImageindex === middleImageindex || leftImageindex === rightImageindex || middleImageindex === rightImageindex || allOfimages.includes(leftImageindex) || allOfimages.includes(middleImageindex || allOfimages.includes(rightImageindex))) {
+    while (leftImageindex === middleImageindex || leftImageindex === rightImageindex || middleImageindex === rightImageindex || allOfimages.includes(leftImageindex) || allOfimages.includes(middleImageindex) || allOfimages.includes(rightImageindex)) {
         leftImageindex = generatRandomindex();
         middleImageindex = generatRandomindex();
         rightImageindex = generatRandomindex();
     }
+
     // norepetArrold = [];
     // norepetArrold.push(leftImageindex);
     // norepetArrold.push(middleImageindex);
     // norepetArrold.push(rightImageindex);
     // console.log('old', norepetArrold);
-    // allOfimages = [];
+    allOfimages = [];
     // for(let i=0;i<norepetArrnew.length;i++){
 
     // }
@@ -90,11 +115,13 @@ function renderThreeimage() {
     middleImageelement.src = Busmall.holeoFbusmall[middleImageindex].img;
     rightImageelement.src = Busmall.holeoFbusmall[rightImageindex].img;
 
-    // allOfimages.push(leftImageindex);
-    // allOfimages.push(middleImageindex);
-    // allOfimages.push(rightImageindex);
-    allOfimages=[leftImageindex,middleImageindex,rightImageindex];
-    console.log(allOfimages);
+    allOfimages.push(leftImageindex);
+    allOfimages.push(middleImageindex);
+    allOfimages.push(rightImageindex);
+
+
+    // allOfimages=[leftImageindex,middleImageindex,rightImageindex];
+    // console.log(allOfimages);
 
 
 }
@@ -111,7 +138,7 @@ continer.addEventListener('click', userClick);
 
 
 function userClick(event) {
-    console.log(event.target.id);
+    // console.log(event.target.id);
 
 
     // for (let i = 0; i < norepetArrnew.length; i++) {
@@ -130,6 +157,7 @@ function userClick(event) {
 
     if (voting < maxVoting) {
         if (event.target.id === 'left-image') {
+
             voting++;
             console.log(voting);
             Busmall.holeoFbusmall[leftImageindex].votes++;
@@ -143,7 +171,7 @@ function userClick(event) {
             Busmall.holeoFbusmall[middleImageindex].votes++;
             Busmall.holeoFbusmall[middleImageindex].seen++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
-        }   
+        }
         else if (event.target.id === 'right-image') {
             voting++;
             console.log(voting);
@@ -152,19 +180,23 @@ function userClick(event) {
             Busmall.holeoFbusmall[rightImageindex].votes++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
         } else {
-            console.log('containr votes', voting);
+            // console.log('containr votes', voting);
         }
 
         // norepetArrnew.push(leftImageindex);
         // norepetArrnew.push(middleImageindex);
         // norepetArrnew.push(rightImageindex);
         // console.log('new', norepetArrnew);
+
         renderThreeimage();
 
 
     } else {
         let listOfall = document.getElementById('list');
         listOfall.addEventListener('click', userClickbotton);
+        listOfall.hidden = false;
+
+        
 
         function userClickbotton(event) {
 
@@ -185,7 +217,10 @@ function userClick(event) {
             listOfall.textContent = lsitOfbusmall;
             listOfall.removeEventListener('click', userClickbotton);
             chart();
+            updateDate();
+            
         }
+
         continer.removeEventListener('click', userClick);
 
     }
@@ -232,3 +267,4 @@ function chart() {
     });
 
 }
+gitdata();
