@@ -229,5 +229,3 @@ function chart() {
     });
 
 }
-
-
