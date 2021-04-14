@@ -73,6 +73,7 @@ function renderThreeimage() {
 
     while (leftImageindex === middleImageindex || leftImageindex === rightImageindex || middleImageindex === rightImageindex || allOfimages.includes(leftImageindex) || allOfimages.includes(middleImageindex || allOfimages.includes(rightImageindex))) {
         leftImageindex = generatRandomindex();
+        middleImageindex = generatRandomindex();
         rightImageindex = generatRandomindex();
     }
     // norepetArrold = [];
@@ -80,7 +81,7 @@ function renderThreeimage() {
     // norepetArrold.push(middleImageindex);
     // norepetArrold.push(rightImageindex);
     // console.log('old', norepetArrold);
-    allOfimages = [];
+    // allOfimages = [];
     // for(let i=0;i<norepetArrnew.length;i++){
 
     // }
@@ -88,9 +89,11 @@ function renderThreeimage() {
     leftImageelement.src = Busmall.holeoFbusmall[leftImageindex].img;
     middleImageelement.src = Busmall.holeoFbusmall[middleImageindex].img;
     rightImageelement.src = Busmall.holeoFbusmall[rightImageindex].img;
-    allOfimages.push(leftImageindex);
-    allOfimages.push(middleImageindex);
-    allOfimages.push(rightImageindex);
+
+    // allOfimages.push(leftImageindex);
+    // allOfimages.push(middleImageindex);
+    // allOfimages.push(rightImageindex);
+    allOfimages=[leftImageindex,middleImageindex,rightImageindex];
     console.log(allOfimages);
 
 
@@ -140,7 +143,7 @@ function userClick(event) {
             Busmall.holeoFbusmall[middleImageindex].votes++;
             Busmall.holeoFbusmall[middleImageindex].seen++;
             Busmall.holeoFbusmall[rightImageindex].seen++;
-        }
+        }   
         else if (event.target.id === 'right-image') {
             voting++;
             console.log(voting);
